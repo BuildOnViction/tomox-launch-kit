@@ -1,10 +1,6 @@
 # DEX-INFRASTRUCTURE
 
-<<<<<<< HEAD
-[![Build Status](https://travis-ci.org/naviat/dex-infrastructure.svg?branch=master)](https://travis-ci.org/naviat/dex-infrastructure)
-=======
 [![Build Status](https://travis-ci.org/tomochain/dex-infrastructure.svg?branch=master)](https://travis-ci.org/tomochain/dex-infrastructure)
->>>>>>> f08470fb35b02949367cd9e105d402c436822515
 
  This is a starter kit for Docker Swarm monitoring with [Prometheus](https://prometheus.io/), 
 [Grafana](http://grafana.org/), 
