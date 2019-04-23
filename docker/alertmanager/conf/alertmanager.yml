@@ -1,0 +1,14 @@
+global:
+  slack_api_url: ''
+
+route:
+    receiver: 'slack'
+
+receivers:
+    - name: 'slack'
+      slack_configs:
+          - send_resolved: true
+            text: "<!channel> \nsummary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"
+            username: 'alertmanager'
+            channel: '#devops-alerts'
+            # api_url: <url>#

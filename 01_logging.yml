@@ -1,0 +1,92 @@
+---
+version: '3.4'
+services:
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.2
+        restart: always
+        environment:
+            - 'node.name=HEYJUDE'
+            - 'discovery.type=single-node'
+            - 'bootstrap.memory_lock=true'
+#            - 'xpack.security.enabled=false'
+            - 'ES_JAVA_OPTS=-Xms256m -Xmx256m'
+        ports:
+            - 9200:9200
+#            - 9300:9300
+        volumes:
+            - type: bind
+              source: /var/lib/elasticsearch
+              target: /usr/share/elasticsearch/data
+        networks:
+            - net
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: localhost:24224
+                fluentd-async-connect: 'true'
+                fluentd-retry-wait: '1s'
+                fluentd-max-retries: '30'
+                tag: alpha.efk.elasticsearch
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana-oss:6.6.2
+        restart: always
+        #ports:
+        #    - 5601:5601
+        networks:
+            - net
+        depends_on:
+            - elasticsearch
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: localhost:24224
+                fluentd-async-connect: 'true'
+                fluentd-retry-wait: '1s'
+                fluentd-max-retries: '30'
+                tag: alpha.efk.kibana
+
+    fluentd:
+        image: naviat/fluentd:1.3.3
+        ports:
+            - 127.0.0.1:24224:24224
+#            - 24224:24224/udp
+        volumes:
+            - ./fluentd/etc:/fluentd/etc
+        networks:
+            - net
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "1G"
+                max-file: "2"
+
+    nginx:
+        image: nginx:1.15
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - type: bind
+              source: ./nginx/nginx.conf
+              target: /etc/nginx/nginx.conf
+              read_only: true
+            - type: bind
+              source: ./nginx/conf.d
+              target: /etc/nginx/conf.d
+              read_only: true
+        networks:
+            - net
+        depends_on:
+            - kibana
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: localhost:24224
+                fluentd-async-connect: 'true'
+                fluentd-retry-wait: '1s'
+                fluentd-max-retries: '30'
+                tag: alpha.efk.nginx
+networks:
+    net:
+        driver: bridge
