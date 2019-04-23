@@ -1,0 +1,35 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - sudo service docker restart
+
+script:
+  - cd docker/prometheus && docker build -t naviat/prometheus:$TRAVIS_BUILD_NUMBER .
+  - cd .. && cd node-exporter && docker build -t naviat/node-exporter:$TRAVIS_BUILD_NUMBER .
+  - cd .. && cd alertmanager && docker build -t naviat/alertmanager:$TRAVIS_BUILD_NUMBER .
+  - cd .. && cd grafana && docker build -t naviat/grafana:$TRAVIS_BUILD_NUMBER .
+  - cd .. && cd fluentd && docker build -t naviat/fluentd:$TRAVIS_BUILD_NUMBER .
+
+after_success:
+  - if [ -z "$DOCKER_USER" ]; then
+      echo "PR build, skipping Docker Hub push";
+    else
+    docker login -u "$DOCKER_USER" -p "$DOCKER_PASS";
+    docker tag naviat/prometheus:$TRAVIS_BUILD_NUMBER naviat/prometheus:v2.8.0;
+    docker push naviat/prometheus:v2.8.0;
+    docker tag naviat/node-exporter:$TRAVIS_BUILD_NUMBER naviat/node-exporter:v0.16.0;
+    docker push naviat/node-exporter:v0.16.0;
+    docker tag naviat/alertmanager:$TRAVIS_BUILD_NUMBER naviat/alertmanager:v0.16.0;
+    docker push naviat/alertmanager:v0.16.0;
+    docker tag naviat/grafana:$TRAVIS_BUILD_NUMBER naviat/grafana:5.3.4;
+    docker push naviat/grafana:5.3.4;
+    docker tag naviat/fluentd:$TRAVIS_BUILD_NUMBER naviat/fluentd:1.3;
+    docker push naviat/fluentd:1.3;
+    fi

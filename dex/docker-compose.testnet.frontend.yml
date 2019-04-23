@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  client:
+    hostname: client
+    image: naviat/client:staging
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TOMO_ETHEREUM_NODE_HTTP_URL=https://testnet.tomochain.com
+      - TOMO_ENGINE_WS_URL=wss://testnet.tomochain.com/ws
+      - TOMO_ETHEREUM_NETWORK_ID=89
+    volumes: 
+      - /etc/letsencrypt:/etc/letsencrypt
+    configs:
+      - source: nginx-config
+        target: /etc/nginx/nginx.conf
+    networks:
+      frontend:
+        aliases:
+        - client
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == client
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 120s
+    command: >
+         bin/sh -c "sleep 10 && chmod +x ./replace.sh && sleep 1 && ./replace.sh && cat /usr/share/nginx/html/env.js && nginx -g 'daemon off;'"
+networks:
+  frontend:
+    external: true
+
+configs:
+  nginx-config:
+    name: nginx-config-${STAGING_CONFIG_VERSION:-0}
+    external: true
+
+volumes:
+  rabbitmq_logs:
+  rabbitmq_data:
+  client_certificates:
