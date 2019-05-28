@@ -144,10 +144,3 @@ networks:
   default:
     external:
       name: monitoring_logging
-
-#########################################################
-
-  # watcher (ELK):
-  # fluentd (Logstash alternative) :
-  # topbeat (Metrics for ELK):
-
