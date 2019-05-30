@@ -1,6 +1,6 @@
-# DEX-INFRASTRUCTURE
+# TOMOX-LAUNCH-KIT
 
-[![Build Status](https://travis-ci.org/tomochain/dex-infrastructure.svg?branch=master)](https://travis-ci.org/tomochain/dex-infrastructure)
+[![Build Status](https://travis-ci.org/tomochain/tomox-launch-kit.svg?branch=master)](https://travis-ci.org/tomochain/tomox-launch-kit)
 
  This is a starter kit for Docker Swarm monitoring with [Prometheus](https://prometheus.io/), 
 [Grafana](http://grafana.org/), 
