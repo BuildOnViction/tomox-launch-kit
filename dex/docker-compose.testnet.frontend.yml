@@ -7,9 +7,9 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - TOMO_ETHEREUM_NODE_HTTP_URL=https://testnet.tomochain.com
-      - TOMO_ENGINE_WS_URL=wss://testnet.tomochain.com/ws
-      - TOMO_ETHEREUM_NETWORK_ID=89
+      - TOMOCHAIN_NODE_HTTP_URL=https://testnet.tomochain.com
+      - TOMOCHAIN_NODE_WS_URL=wss://testnet.tomochain.com/ws
+      - DEFAULT_NETWORK_ID=89
     volumes: 
       - /etc/letsencrypt:/etc/letsencrypt
     configs:

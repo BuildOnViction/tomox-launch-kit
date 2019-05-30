@@ -1,0 +1,5 @@
+MONGO_USER_ADMIN=admin
+MONGO_PASS_ADMIN=changeme
+
+MONGO_REPLICA_ADMIN=replicaAdmin
+MONGO_PASS_REPLICA=changeme

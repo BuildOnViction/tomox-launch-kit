@@ -140,30 +140,3 @@ networks:
   default:
     external:
       name: monitoring_logging
-
-#########################################################
-
-  #### Other tools to look into:
-  # topbeat (Metrics for ELK):
-  # collectd (Alternative for metric collection on nodes):
-
-
-  #### Alternative for Prometheus as a datastore:
-  # influxdb:
-  #   container_name: influxdb
-  #   image: influxdb
-  #   expose:
-  #     - 8083
-  #     - 8086
-  #   hostname: influxdb
-  #   # volumes:
-  #   #   - influxdb:/var/lib/influxdb
-  #   restart: always
-  #   labels:
-  #     container_group: monitoring
-  #   logging:
-  #     driver: gelf
-  #     options:
-  #       gelf-address: udp://localhost:12201
-  #       labels: monitoring
-

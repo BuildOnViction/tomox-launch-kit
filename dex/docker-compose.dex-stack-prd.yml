@@ -1,0 +1,83 @@
+version: '3.4'
+services:
+  mongo0:
+    hostname: mongo0
+    container_name: mongo0
+    image: mongo-replicaSet
+    ports:
+      - 27017:27017
+    volumes:
+      - ./datadir/datadir0:/data/db
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo1:
+    hostname: mongo1
+    container_name: mongo1
+    image: mongo-replicaSet
+    ports:
+      - 27018:27017
+    volumes:
+      - ./datadir/datadir1:/data/db
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo-replicaSet
+    ports:
+      - 27019:27017
+    volumes:
+      - ./datadir/datadir2:/data/db
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo-rs0-setup:
+    container_name: "mongo-replicaSet-rs0-setup"
+    image: mongo-replicaSet
+    depends_on:
+      - "mongo0"
+      - "mongo1"
+      - "mongo2"
+    links:
+      - mongo0:mongo0
+      - mongo1:mongo1
+      - mongo2:mongo2
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      - MONGO0=mongo0
+      - MONGO1=mongo1
+      - MONGO2=mongo2
+      - RS=rs0
+    entrypoint: [ "/scripts/setup_mongo.sh" ]
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: 'rabbitmq'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  server:
+    image: naviat/dex-server
+    container_name: 'server'
+    volumes:
+      - ./config/addresses.json:./src/dex-server/config/addresses.json
+    ports:
+      - '8080:8080'
+  
+
+  client:
+    image: naviat/dex-client
+    container_name: 'client'
+    volumes:
+      - ./config/addresses.json:./src/dex-server/src/config/addresses.json
+    ports:
+      - '80:80'
+  
+  proxy:
+    image: naviat/nginx-proxy
+    container_name: 'proxy'
+    ports:
+      - '80:80'
+      - '443:443'
+    
