@@ -13,8 +13,8 @@ const create = async () => {
           required: [
             'baseToken',
             'quoteToken',
-            'amount',
-            'pricepoint',
+            'quantity',
+            'price',
             'userAddress',
             'exchangeAddress',
             'filledAmount',
@@ -29,10 +29,10 @@ const create = async () => {
             filledAmount: {
               bsonType: 'string',
             },
-            amount: {
+            quantity: {
               bsonType: 'string',
             },
-            pricepoint: {
+            price: {
               bsonType: 'string',
             },
             makeFee: {
@@ -66,10 +66,25 @@ const create = async () => {
               bsonType: 'string',
             },
             createdAt: {
-              bsonType: 'date',
+              bsonType: 'string',
             },
             updatedAt: {
-              bsonType: 'date',
+              bsonType: 'string',
+            },
+            orderID: {
+              bsonType: 'string',
+            },
+            nextOrder: {
+              bsonType: 'string',
+            },
+            prevOrder: {
+              bsonType: 'string',
+            },
+            orderList: {
+              bsonType: 'string',
+            },
+            key: {
+              bsonType: 'string',
             },
           },
         },

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-env": "docker-compose up -d rabbitmq mongodb",
-    "reset-env": "yarn stop-env && sudo rm -rf datadir && yarn start-env",
+    "start-env": "docker-compose up -d",
+    "reset-env": "yarn stop-env && sudo rm -rf ./datadir/datadir* && yarn start-env",
     "stop-env": "docker-compose down",
     "seeds": "./seed-data.sh",
     "rabbitmq-ui": "docker exec rabbitmq rabbitmq-plugins enable rabbitmq_management"
