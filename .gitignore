@@ -73,3 +73,5 @@ fabric.properties
 */.idea/**
 .idea/
 .vscode/
+
+node_modules
