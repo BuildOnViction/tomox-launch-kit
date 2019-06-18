@@ -3,7 +3,7 @@ const utils = require('ethers').utils
 const faker = require('faker')
 const MongoClient = require('mongodb').MongoClient
 
-const { DB_NAME, mongoUrl, nativeCurrency, relayerDataJSON } = require('./config/config')
+const {DB_NAME, mongoUrl, nativeCurrency, relayerDataJSON} = require('./config/config')
 
 let documents = []
 let tokens = relayerDataJSON.tokens
@@ -14,7 +14,7 @@ const seed = async () => {
   try {
     client = await MongoClient.connect(
       mongoUrl,
-      { useNewUrlParser: true },
+      {useNewUrlParser: true},
     )
     console.log('Seeding tokens collection')
     db = client.db(DB_NAME)
@@ -27,26 +27,14 @@ const seed = async () => {
     }
 
     documents = Object.keys(tokens).map(address => {
-      if (tokens[address].symbol === "TOMO" && hasTomo) {
-        return {
-          symbol: tokens[address].symbol,
-          contractAddress: utils.getAddress(nativeCurrency.address),
-          decimals: tokens[address].decimals,
-          makeFee: tokens[address].makeFee,
-          takeFee: tokens[address].takeFee,
-          quote: false,
-          createdAt: new Date(faker.fake('{{date.recent}}')),
-        }
-      } else {
-        return {
-          symbol: tokens[address].symbol,
-          contractAddress: utils.getAddress(address),
-          decimals: tokens[address].decimals,
-          makeFee: tokens[address].makeFee,
-          takeFee: tokens[address].takeFee,
-          quote: false,
-          createdAt: new Date(faker.fake('{{date.recent}}')),
-        }
+      return {
+        symbol: tokens[address].symbol,
+        contractAddress: utils.getAddress(address),
+        decimals: tokens[address].decimals,
+        makeFee: tokens[address].makeFee,
+        takeFee: tokens[address].takeFee,
+        quote: false,
+        createdAt: new Date(faker.fake('{{date.recent}}')),
       }
     })
 

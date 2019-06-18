@@ -2,9 +2,10 @@ require('dotenv').config()
 const _ = require('lodash')
 const fs = require('fs')
 const utils = require('ethers').utils
-const { providers, Contract } = require('ethers')
+const {providers, Contract} = require('ethers')
 
-const { Token, RelayerRegistration } = require('../src/utils/abis')
+const {Token, RelayerRegistration} = require('../src/utils/abis')
+const {nativeCurrency} = require('../src/config/config')
 
 const coinbaseAddress = process.env.COINBASE_ADDRESS
 const relayerRegistrationContractAddress = process.env.RELAYER_REGISTRATION_CONTRACT_ADDRESS
@@ -78,6 +79,14 @@ const queryRelayerRegistrationContract = async () => {
 
     // Pair will have the format "ETH/TOMO" for example
     result.pairs.push(`${result.tokens[normalizedFromToken].symbol}/${result.tokens[normalizedToToken].symbol}`)
+  }
+
+  for (const address in result.tokens) {
+    if (result.tokens[address].symbol === nativeCurrency.symbol) {
+      result.tokens[nativeCurrency.address] = result.tokens[address]
+      delete result.tokens[address]
+      break
+    }
   }
 
   console.log(result)
