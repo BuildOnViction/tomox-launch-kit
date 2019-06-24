@@ -42,13 +42,13 @@ services:
       - mongo1:mongo1
       - mongo2:mongo2
     volumes:
-      - ./scripts:/scripts
+      - ./env_scripts:/env_scripts
     environment:
       - MONGO0=mongo0
       - MONGO1=mongo1
       - MONGO2=mongo2
       - RS=rs0
-    entrypoint: [ "/scripts/setup_mongo.sh" ]
+    entrypoint: [ "/env_scripts/setup_mongo.sh" ]
 
   rabbitmq:
     image: rabbitmq
