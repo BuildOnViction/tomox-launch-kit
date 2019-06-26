@@ -76,129 +76,153 @@ b0mfdypyqkph         \_ db_rs.1         naviat/mongors:4.0   linuxkit-0250000000
 Additional verification (substitute the correct container name/hash in your environment):
 
 ```
-$ docker exec -it db_rs1.1.iwokdgch5bud3tihaqd6484li mongo
+$ docker exec -it db_rs1.1.krxwm3fzh8m7zt974mc9n3vlb mongo                                                                                                                                      0.06   ✔   17:04    26.06.19  
+  MongoDB shell version v4.0.10
+  connecting to: mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb
+  Implicit session: session { "id" : UUID("5d31dab9-8bbc-4e99-97c4-79f7f1fb0c86") }
+  MongoDB server version: 4.0.10
+  Welcome to the MongoDB shell.
+  For interactive help, type "help".
+  For more comprehensive documentation, see
+          http://docs.mongodb.org/
+  Questions? Try the support group
+          http://groups.google.com/group/mongodb-user
+  Server has startup warnings: 
+  2019-06-26T09:59:59.914+0000 I STORAGE  [initandlisten] 
+  2019-06-26T09:59:59.914+0000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+  2019-06-26T09:59:59.914+0000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+  2019-06-26T10:00:00.435+0000 I CONTROL  [initandlisten] 
+  2019-06-26T10:00:00.436+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+  2019-06-26T10:00:00.436+0000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+  2019-06-26T10:00:00.436+0000 I CONTROL  [initandlisten] 
+  ---
+  Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+  metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+  
+  The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+  and anyone you share the URL with. MongoDB may use this information to make product
+  improvements and to suggest MongoDB products and deployment options to you.
+  
+  To enable free monitoring, run the following command: db.enableFreeMonitoring()
+  To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
 
-MongoDB shell version v4.0
-connecting to: mongodb://127.0.0.1:27017
-MongoDB server version: 4.0
-Welcome to the MongoDB shell.
-For interactive help, type "help".
-For more comprehensive documentation, see
-	http://docs.mongodb.org/
-Questions? Try the support group
-	http://groups.google.com/group/mongodb-user
-Server has startup warnings:
-2018-07-20T00:27:38.874+0000 I STORAGE  [initandlisten]
-2018-07-20T00:27:38.874+0000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
-2018-07-20T00:27:38.874+0000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
-2018-07-20T00:27:38.904+0000 I CONTROL  [initandlisten]
-2018-07-20T00:27:38.904+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
-2018-07-20T00:27:38.904+0000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
-2018-07-20T00:27:38.904+0000 I CONTROL  [initandlisten]
-
-rs0:PRIMARY> rs.status()
+rs0:PRIMARY>  rs.status()
 {
-	"set" : "rs0",
-	"date" : ISODate("2018-07-20T00:44:17.877Z"),
-	"myState" : 1,
-	"term" : NumberLong(1),
-	"syncingTo" : "",
-	"syncSourceHost" : "",
-	"syncSourceId" : -1,
-	"heartbeatIntervalMillis" : NumberLong(2000),
-	"optimes" : {
-		"lastCommittedOpTime" : {
-			"ts" : Timestamp(1532047457, 1),
-			"t" : NumberLong(1)
-		},
-		"appliedOpTime" : {
-			"ts" : Timestamp(1532047457, 1),
-			"t" : NumberLong(1)
-		},
-		"durableOpTime" : {
-			"ts" : Timestamp(1532047457, 1),
-			"t" : NumberLong(1)
-		}
-	},
-	"members" : [
-		{
-			"_id" : 0,
-			"name" : "rs1:27017",
-			"health" : 1,
-			"state" : 1,
-			"stateStr" : "PRIMARY",
-			"uptime" : 999,
-			"optime" : {
-				"ts" : Timestamp(1532047457, 1),
-				"t" : NumberLong(1)
-			},
-			"optimeDate" : ISODate("2018-07-20T00:44:17Z"),
-			"syncingTo" : "",
-			"syncSourceHost" : "",
-			"syncSourceId" : -1,
-			"infoMessage" : "",
-			"electionTime" : Timestamp(1532046476, 1),
-			"electionDate" : ISODate("2018-07-20T00:27:56Z"),
-			"configVersion" : 1,
-			"self" : true,
-			"lastHeartbeatMessage" : ""
-		},
-		{
-			"_id" : 1,
-			"name" : "rs2:27017",
-			"health" : 1,
-			"state" : 2,
-			"stateStr" : "SECONDARY",
-			"uptime" : 992,
-			"optime" : {
-				"ts" : Timestamp(1532047447, 1),
-				"t" : NumberLong(1)
-			},
-			"optimeDurable" : {
-				"ts" : Timestamp(1532047447, 1),
-				"t" : NumberLong(1)
-			},
-			"optimeDate" : ISODate("2018-07-20T00:44:07Z"),
-			"optimeDurableDate" : ISODate("2018-07-20T00:44:07Z"),
-			"lastHeartbeat" : ISODate("2018-07-20T00:44:16.645Z"),
-			"lastHeartbeatRecv" : ISODate("2018-07-20T00:44:16.957Z"),
-			"pingMs" : NumberLong(0),
-			"lastHeartbeatMessage" : "",
-			"syncingTo" : "rs3:27017",
-			"syncSourceHost" : "rs3:27017",
-			"syncSourceId" : 2,
-			"infoMessage" : "",
-			"configVersion" : 1
-		},
-		{
-			"_id" : 2,
-			"name" : "rs3:27017",
-			"health" : 1,
-			"state" : 2,
-			"stateStr" : "SECONDARY",
-			"uptime" : 992,
-			"optime" : {
-				"ts" : Timestamp(1532047447, 1),
-				"t" : NumberLong(1)
-			},
-			"optimeDurable" : {
-				"ts" : Timestamp(1532047447, 1),
-				"t" : NumberLong(1)
-			},
-			"optimeDate" : ISODate("2018-07-20T00:44:07Z"),
-			"optimeDurableDate" : ISODate("2018-07-20T00:44:07Z"),
-			"lastHeartbeat" : ISODate("2018-07-20T00:44:16.645Z"),
-			"lastHeartbeatRecv" : ISODate("2018-07-20T00:44:16.956Z"),
-			"pingMs" : NumberLong(0),
-			"lastHeartbeatMessage" : "",
-			"syncingTo" : "rs1:27017",
-			"syncSourceHost" : "rs1:27017",
-			"syncSourceId" : 0,
-			"infoMessage" : "",
-			"configVersion" : 1
-		}
-	],
-	"ok" : 1
+        "set" : "rs0",
+        "date" : ISODate("2019-06-26T10:06:28.710Z"),
+        "myState" : 1,
+        "term" : NumberLong(1),
+        "syncingTo" : "",
+        "syncSourceHost" : "",
+        "syncSourceId" : -1,
+        "heartbeatIntervalMillis" : NumberLong(2000),
+        "optimes" : {
+                "lastCommittedOpTime" : {
+                        "ts" : Timestamp(1561543578, 1),
+                        "t" : NumberLong(1)
+                },
+                "readConcernMajorityOpTime" : {
+                        "ts" : Timestamp(1561543578, 1),
+                        "t" : NumberLong(1)
+                },
+                "appliedOpTime" : {
+                        "ts" : Timestamp(1561543578, 1),
+                        "t" : NumberLong(1)
+                },
+                "durableOpTime" : {
+                        "ts" : Timestamp(1561543578, 1),
+                        "t" : NumberLong(1)
+                }
+        },
+        "lastStableCheckpointTimestamp" : Timestamp(1561543578, 1),
+        "members" : [
+                {
+                        "_id" : 0,
+                        "name" : "rs1:27017",
+                        "health" : 1,
+                        "state" : 1,
+                        "stateStr" : "PRIMARY",
+                        "uptime" : 389,
+                        "optime" : {
+                                "ts" : Timestamp(1561543578, 1),
+                                "t" : NumberLong(1)
+                        },
+                        "optimeDate" : ISODate("2019-06-26T10:06:18Z"),
+                        "syncingTo" : "",
+                        "syncSourceHost" : "",
+                        "syncSourceId" : -1,
+                        "infoMessage" : "",
+                        "electionTime" : Timestamp(1561543216, 1),
+                        "electionDate" : ISODate("2019-06-26T10:00:16Z"),
+                        "configVersion" : 1,
+                        "self" : true,
+                        "lastHeartbeatMessage" : ""
+                },
+                {
+                        "_id" : 1,
+                        "name" : "rs2:27017",
+                        "health" : 1,
+                        "state" : 2,
+                        "stateStr" : "SECONDARY",
+                        "uptime" : 383,
+                        "optime" : {
+                                "ts" : Timestamp(1561543578, 1),
+                                "t" : NumberLong(1)
+                        },
+                        "optimeDurable" : {
+                                "ts" : Timestamp(1561543578, 1),
+                                "t" : NumberLong(1)
+                        },
+                        "optimeDate" : ISODate("2019-06-26T10:06:18Z"),
+                        "optimeDurableDate" : ISODate("2019-06-26T10:06:18Z"),
+                        "lastHeartbeat" : ISODate("2019-06-26T10:06:27.301Z"),
+                        "lastHeartbeatRecv" : ISODate("2019-06-26T10:06:27.316Z"),
+                        "pingMs" : NumberLong(0),
+                        "lastHeartbeatMessage" : "",
+                        "syncingTo" : "rs1:27017",
+                        "syncSourceHost" : "rs1:27017",
+                        "syncSourceId" : 0,
+                        "infoMessage" : "",
+                        "configVersion" : 1
+                },
+                {
+                        "_id" : 2,
+                        "name" : "rs3:27017",
+                        "health" : 1,
+                        "state" : 2,
+                        "stateStr" : "SECONDARY",
+                        "uptime" : 383,
+                        "optime" : {
+                                "ts" : Timestamp(1561543578, 1),
+                                "t" : NumberLong(1)
+                        },
+                        "optimeDurable" : {
+                                "ts" : Timestamp(1561543578, 1),
+                                "t" : NumberLong(1)
+                        },
+                        "optimeDate" : ISODate("2019-06-26T10:06:18Z"),
+                        "optimeDurableDate" : ISODate("2019-06-26T10:06:18Z"),
+                        "lastHeartbeat" : ISODate("2019-06-26T10:06:27.294Z"),
+                        "lastHeartbeatRecv" : ISODate("2019-06-26T10:06:27.316Z"),
+                        "pingMs" : NumberLong(0),
+                        "lastHeartbeatMessage" : "",
+                        "syncingTo" : "rs1:27017",
+                        "syncSourceHost" : "rs1:27017",
+                        "syncSourceId" : 0,
+                        "infoMessage" : "",
+                        "configVersion" : 1
+                }
+        ],
+        "ok" : 1,
+        "operationTime" : Timestamp(1561543578, 1),
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1561543578, 1),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        }
 }
 ```
 
