@@ -2,9 +2,10 @@ require('dotenv').config()
 const _ = require('lodash')
 const fs = require('fs')
 const utils = require('ethers').utils
-const { providers, Contract } = require('ethers')
+const {providers, Contract} = require('ethers')
 
-const { Token, RelayerRegistration } = require('../src/utils/abis')
+const {Token, RelayerRegistration} = require('../src/utils/abis')
+const {nativeCurrency} = require('../src/config/config')
 
 const coinbaseAddress = process.env.COINBASE_ADDRESS
 const relayerRegistrationContractAddress = process.env.RELAYER_REGISTRATION_CONTRACT_ADDRESS
@@ -31,7 +32,6 @@ const result = {
 const queryRelayerRegistrationContract = async () => {
 
   const data = await relayerRegistrationContract.getRelayerByCoinbase(coinbaseAddress)
-  console.log(data)
 
   const makeFee = data[2]
   const takeFee = data[3]
@@ -39,6 +39,17 @@ const queryRelayerRegistrationContract = async () => {
   const toTokens = data[5]
 
   const tokens = _.union(fromTokens, toTokens)
+
+  // If there is no token, return immediately
+  if (tokens.length === 0) {
+    console.log("There is no token")
+    return
+  }
+
+  if (fromTokens.length !== toTokens.length) {
+    console.log("Smart contract returned values are not correct.")
+    return
+  }
 
   // Get tokens data
   for (const token of tokens) {
@@ -68,6 +79,14 @@ const queryRelayerRegistrationContract = async () => {
 
     // Pair will have the format "ETH/TOMO" for example
     result.pairs.push(`${result.tokens[normalizedFromToken].symbol}/${result.tokens[normalizedToToken].symbol}`)
+  }
+
+  for (const address in result.tokens) {
+    if (result.tokens[address].symbol === nativeCurrency.symbol) {
+      result.tokens[nativeCurrency.address] = result.tokens[address]
+      delete result.tokens[address]
+      break
+    }
   }
 
   console.log(result)

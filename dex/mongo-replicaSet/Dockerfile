@@ -10,7 +10,7 @@ RUN DEBIAN_FRONTEND=noninteractive && \
     service mongod stop && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Add scripts
+# Add env_scripts
 ADD scripts /scripts
 RUN chmod +x /scripts/*.sh
 RUN touch /.firstrun

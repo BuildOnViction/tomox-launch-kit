@@ -10,10 +10,6 @@ services:
     container_name: traefik
     image: traefik:1.7.4-alpine
     restart: always
-    depends_on:
-      - web
-      - mqtt
-    command: --docker
     ports:
       - 80:80
       - 443:443
