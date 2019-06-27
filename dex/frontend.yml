@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  ui:
+    image: frontend
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true

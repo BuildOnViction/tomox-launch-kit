@@ -1,0 +1,7 @@
+import {$CADDY_TLS_MODE}
+
+https://{$CADDY_WEB_DOMAIN} {
+    gzip
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
+}
