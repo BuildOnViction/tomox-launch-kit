@@ -1,19 +1,25 @@
 version: '3.3'
 services:
   rs1:
-    image: mongo:4.0
+    image: mongo
     command: mongod --replSet "rs0"
+    volumes:
+      - db-data-1:/data/db
     networks:
       - backend
   rs2:
-    image: mongo:4.0
+    image: mongo
     command: mongod --replSet "rs0"
+    volumes:
+      - db-data-2:/data/db
     networks:
       - backend
 
   rs3:
-    image: mongo:4.0
+    image: mongo
     command: mongod --replSet "rs0"
+    volumes:
+      - db-data-3:/data/db
     networks:
       - backend
 
@@ -50,8 +56,10 @@ services:
       - rs3
       - rabbitmq
 
-#volumes:
-#  db-data:
+volumes:
+  db-data-1:
+  db-data-2:
+  db-data-3:
 
 networks:
   backend:

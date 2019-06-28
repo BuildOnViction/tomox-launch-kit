@@ -75,3 +75,4 @@ fabric.properties
 .vscode/
 
 node_modules
+datadir
