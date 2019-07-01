@@ -3,6 +3,8 @@ services:
   rs1:
     image: mongo
     command: mongod --replSet "rs0"
+    ports:
+      - "27017:27017"
     volumes:
       - db-data-1:/data/db
     networks:
@@ -10,6 +12,8 @@ services:
   rs2:
     image: mongo
     command: mongod --replSet "rs0"
+    ports:
+      - "27017:27017"
     volumes:
       - db-data-2:/data/db
     networks:
