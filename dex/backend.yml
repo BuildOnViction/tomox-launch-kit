@@ -22,6 +22,8 @@ services:
   rs3:
     image: mongo
     command: mongod --replSet "rs0"
+    ports:
+      - "27017:27017"
     volumes:
       - db-data-3:/data/db
     networks:
