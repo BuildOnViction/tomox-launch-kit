@@ -4,6 +4,8 @@ networks:
   net:
     driver: overlay
     attachable: true
+  traefik-public:
+    external: true
 
 volumes:
     prometheus: {}
@@ -11,18 +13,16 @@ volumes:
     alertmanager: {}
 
 configs:
-  caddy_config:
-    file: ../docker/caddy/Caddyfile
   dockerd_config:
-    file: ../docker/dockerd-exporter/Caddyfile
+    file: ./dockerd-exporter/Caddyfile
   node_rules:
-    file: ../docker/prometheus/rules/swarm_node.rules.yml
+    file: ./prometheus/rules/swarm_node.rules.yml
   task_rules:
-    file: ../docker/prometheus/rules/swarm_task.rules.yml
+    file: ./prometheus/rules/swarm_task.rules.yml
 
 services:
   dockerd-exporter:
-    image: naviat/caddy
+    image: stefanprodan/caddy
     networks:
       - net
     environment:
@@ -46,7 +46,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro
-      - /var/run:/var/run:ro
+      - /var/run:/var/run
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     deploy:
@@ -58,9 +58,11 @@ services:
           memory: 64M
 
   grafana:
-    image: naviat/grafana:5.3.4
+    image: stefanprodan/swarmprom-grafana:5.3.4
     networks:
+      - default
       - net
+      - traefik-public
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
@@ -85,14 +87,27 @@ services:
           memory: 128M
         reservations:
           memory: 64M
+      labels:
+        - traefik.frontend.rule=Host:grafana.${DOMAIN}
+        - traefik.enable=true
+        - traefik.port=3000
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https
 
   alertmanager:
-    image: naviat/alertmanager:v0.16.1
+    image: stefanprodan/swarmprom-alertmanager:v0.14.0
     networks:
+      - default
       - net
+      - traefik-public
     environment:
-      - SLACK_URL=${SLACK_URL:-https://hooks.slack.com/services/ABCXYZ1234567890}
-      - SLACK_CHANNEL=${SLACK_CHANNEL:-devops-alerts}
+      - SLACK_URL=${SLACK_URL:-https://hooks.slack.com/services/TOKEN}
+      - SLACK_CHANNEL=${SLACK_CHANNEL:-general}
       - SLACK_USER=${SLACK_USER:-alertmanager}
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
@@ -110,19 +125,45 @@ services:
           memory: 128M
         reservations:
           memory: 64M
+      labels:
+        - traefik.frontend.rule=Host:alertmanager.${DOMAIN}
+        - traefik.enable=true
+        - traefik.port=9093
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https
+        - traefik.frontend.auth.basic.users=${ADMIN_USER}:${HASHED_PASSWORD}
 
   unsee:
-    image: cloudflare/unsee:v0.9.2
+    image: cloudflare/unsee:v0.8.0
     networks:
+      - default
       - net
+      - traefik-public
     environment:
       - "ALERTMANAGER_URIS=default:http://alertmanager:9093"
     deploy:
       mode: replicated
       replicas: 1
+      labels:
+        - traefik.frontend.rule=Host:unsee.${DOMAIN}
+        - traefik.enable=true
+        - traefik.port=8080
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https
+        - traefik.frontend.auth.basic.users=${ADMIN_USER}:${HASHED_PASSWORD}
 
   node-exporter:
-    image: naviat/node-exporter:v0.16.0
+    image: stefanprodan/swarmprom-node-exporter:v0.16.0
     networks:
       - net
     environment:
@@ -147,13 +188,15 @@ services:
           memory: 64M
 
   prometheus:
-    image: naviat/prometheus:v2.8.0
+    image: stefanprodan/swarmprom-prometheus:v2.5.0
     networks:
+      - default
       - net
+      - traefik-public
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention=200h'
+      - '--storage.tsdb.retention=${PROMETHEUS_RETENTION:-24h}'
     volumes:
       - prometheus:/prometheus
     configs:
@@ -172,35 +215,15 @@ services:
           memory: 2048M
         reservations:
           memory: 128M
-
-  caddy:
-    image: naviat/caddy
-    ports:
-      - "3000:3000"
-      - "9090:9090"
-      - "9093:9093"
-      - "9094:9094"
-    networks:
-      - net
-    environment:
-      - ADMIN_USER=${ADMIN_USER:-admin}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-    configs:
-      - source: caddy_config
-        target: /etc/caddy/Caddyfile
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      resources:
-        limits:
-          memory: 128M
-        reservations:
-          memory: 64M
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 5s
-      timeout: 1s
-      retries: 5
+      labels:
+        - traefik.frontend.rule=Host:prometheus.${DOMAIN}
+        - traefik.enable=true
+        - traefik.port=9090
+        - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+        - traefik.docker.network=traefik-public
+        # Traefik service that listens to HTTP
+        - traefik.redirectorservice.frontend.entryPoints=http
+        - traefik.redirectorservice.frontend.redirect.entryPoint=https
+        # Traefik service that listens to HTTPS
+        - traefik.webservice.frontend.entryPoints=https
+        - traefik.frontend.auth.basic.users=${ADMIN_USER}:${HASHED_PASSWORD}
