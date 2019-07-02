@@ -27,5 +27,4 @@ datadir
 /node_modules
 package-lock.json
 yarn.lock
-src/config/addresses.json
 .env
