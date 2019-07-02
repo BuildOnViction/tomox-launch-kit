@@ -55,4 +55,5 @@ services:
 
 networks:
   backend:
+    driver: overlay
     external: true

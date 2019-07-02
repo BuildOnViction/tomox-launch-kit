@@ -1,13 +1,23 @@
 version: '3.3'
+configs:
+  tokens_config:
+    file: ../deploy/src/config/addtesses.json
 services:
   ui:
     image: frontend
+    configs:
+      - source: tokens-config
+        target: ./app/src/config/addresses.json
+    ports:
+      - "80:80"
     networks:
       - frontend
       - backend
 
 networks:
   frontend:
+    driver: overlay
     external: true
   backend:
+    driver: overlay
     external: true
