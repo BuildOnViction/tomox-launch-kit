@@ -16,7 +16,7 @@ RELAYER_REGISTRATION_CONTRACT_ADDRESS=$3
 usage() {
   local printer="$(arg_or_default "$1" 'print_raw')"
 
-  "${printer}" "usage: ${CURRENT_SCRIPT} [-h] [TAG]"
+  "${printer}" "usage: ${CURRENT_SCRIPT} [-h] [TAG] [COINBASE ADD] [CONTRACT ADD]"
 }
 
 # usage: full_usage [printer]
@@ -30,6 +30,8 @@ full_usage() {
   "${printer}" 'arguments:'
   "${printer}" '  -h                    show this help message and exit'
   "${printer}" '  TAG                   the tag of the image to build'
+  "${printer}" '  COINBASE ADD          the coin base address for relayer'
+  "${printer}" '  CONTRACT ADD          the contract address for relayer'  
 }
 
 
