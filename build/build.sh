@@ -38,7 +38,7 @@ full_usage() {
 
 # usage: build_image [tag]
 build_image() {
-  # Pull the lastest tomox-sdk-ui to current directory
+  # Pull the latest tomox-sdk-ui to current directory
   git pull ${GITHUB_URL} -o tomox-sdk-ui 
   # Generate image name
   local name="${DOCKER_IMAGE_NAME}:$(arg_or_default "$1" \
