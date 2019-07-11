@@ -1,6 +1,24 @@
-# DEX-INFRASTRUCTURE
+# TOMOX-LAUNCH-KIT
 
-[![Build Status](https://travis-ci.org/tomochain/dex-infrastructure.svg?branch=master)](https://travis-ci.org/tomochain/dex-infrastructure)
+## Deploy smart contract
+_Deployment code for TomoX decentralized exchange_
+
+#### Install
+```
+yarn install
+```
+
+#### Usage
+
+Please refer to the deployment guide: https://github.com/tomochain/dex-smart-contract/blob/develop/Deployment_step_by_step.md
+
+#### Contribution
+
+Please try your best to follow the guidance here:
+https://chris.beams.io/posts/git-commit/
+
+## Monitoring and Logging 
+[![Build Status](https://travis-ci.org/tomochain/tomox-launch-kit.svg?branch=master)](https://travis-ci.org/tomochain/tomox-launch-kit)
 
  This is a starter kit for Docker Swarm monitoring with [Prometheus](https://prometheus.io/), 
 [Grafana](http://grafana.org/), 
