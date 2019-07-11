@@ -25,7 +25,7 @@ full_usage() {
 
   usage "${printer}"
   "${printer}"
-  "${printer}" 'Build tool for esp8266 development container'
+  "${printer}" 'Build tool for tomox-sdk-ui development container'
   "${printer}"
   "${printer}" 'arguments:'
   "${printer}" '  -h                    show this help message and exit'
