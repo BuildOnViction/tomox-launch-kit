@@ -5,6 +5,7 @@
 readonly CURRENT_SCRIPT="$(basename -- ${BASH_SOURCE[0]})"
 readonly CURRENT_DIRECTORY="$(cd "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly DOCKER_BINARY="$(command -v docker)"
+readonly GITHUB_URL="https://github.com/tomochain/tomox-launch-kit.git"
 
 source "${CURRENT_DIRECTORY}/scripts/config.sh"
 source "${CURRENT_DIRECTORY}/scripts/util.sh"
@@ -37,6 +38,8 @@ full_usage() {
 
 # usage: build_image [tag]
 build_image() {
+  # Pull the lastest tomox-sdk-ui to current directory
+  git pull ${GITHUB_URL} -o tomox-sdk-ui 
   # Generate image name
   local name="${DOCKER_IMAGE_NAME}:$(arg_or_default "$1" \
                                                     "${DOCKER_IMAGE_TAG}")"

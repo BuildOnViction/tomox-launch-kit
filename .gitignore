@@ -33,13 +33,10 @@ fabric.properties
 .idea
 .vscode
 
-<<<<<<< HEAD
 */.idea/**
 .idea/
 .vscode/
 datadir
 node_modules
-=======
-node_modules
-datadir
->>>>>>> features/monitoring
+
+tomox-sdk-ui

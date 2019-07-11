@@ -1,4 +1,4 @@
-readonly DOCKER_IMAGE_NAME="tomochain/tomox-sdk-ui "
+readonly DOCKER_IMAGE_NAME="tomochain/tomox-sdk-ui"
 readonly DOCKER_IMAGE_TAG="1.0"
 readonly DOCKER_IMAGE_MOUNT="/mnt/data"         # Optional
 
