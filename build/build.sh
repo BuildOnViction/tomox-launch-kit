@@ -39,7 +39,17 @@ full_usage() {
 # usage: build_image [tag]
 build_image() {
   # Clone the latest tomox-sdk-ui to current directory
-  git clone ${GITHUB_URL} 
+  if ! [[ -d "${GITHUB_URL}" ]]; then
+    echo '-------------------'
+    echo "First-time clone process..."
+    echo "...Downloading from $GITHUB_URL"
+    git clone -b features/dockerize ${GITHUB_URL}
+    echo "Done git clone tomox-sdk-ui!"
+    echo "-------------------"
+  fi 
+  # Replace .env parameter
+
+
   # Generate image name
   local name="${DOCKER_IMAGE_NAME}:$(arg_or_default "$1" \
                                                     "${DOCKER_IMAGE_TAG}")"
