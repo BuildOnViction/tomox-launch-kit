@@ -48,7 +48,8 @@ build_image() {
     echo "-------------------"
   fi 
   # Replace .env parameter
-
+  sed -E '/^COINBASE_ADDRESS/s/=.*$/=${COINBASE_ADDRESS}/' tomox-sdk-ui/.env
+  sed -E '/^RELAYER_REGISTRATION_CONTRACT_ADDRESS/s/=.*$/=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/' tomox-sdk-ui/.env
 
   # Generate image name
   local name="${DOCKER_IMAGE_NAME}:$(arg_or_default "$1" \
