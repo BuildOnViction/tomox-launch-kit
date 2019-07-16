@@ -10,14 +10,14 @@ readonly GITHUB_URL='https://github.com/tomochain/tomox-sdk-ui.git'
 source "${CURRENT_DIRECTORY}/scripts/config.sh"
 source "${CURRENT_DIRECTORY}/scripts/util.sh"
 
-COINBASE_ADDRESS=$2
-RELAYER_REGISTRATION_CONTRACT_ADDRESS=$3
+# COINBASE_ADDRESS=$2
+# RELAYER_REGISTRATION_CONTRACT_ADDRESS=$4
 
 # usage: usage [printer]
 usage() {
   local printer="$(arg_or_default "$1" 'print_raw')"
 
-  "${printer}" "usage: ${CURRENT_SCRIPT} [-h] [TAG] [COINBASE ADD] [CONTRACT ADD]"
+  "${printer}" "usage: ${CURRENT_SCRIPT} [-h] -c [COINBASE ADD] -a [CONTRACT ADD]"
 }
 
 # usage: full_usage [printer]
@@ -30,13 +30,12 @@ full_usage() {
   "${printer}"
   "${printer}" 'arguments:'
   "${printer}" '  -h                    show this help message and exit'
-  "${printer}" '  TAG                   the tag of the image to build'
-  "${printer}" '  COINBASE ADD          the coin base address for relayer'
-  "${printer}" '  CONTRACT ADD          the contract address for relayer'  
+  "${printer}" '  -c                    the coin base address for relayer'
+  "${printer}" '  -a                    the contract address for relayer'  
 }
 
 
-# usage: build_image [tag]
+# usage: build_image [coinbase] [contract]
 build_image() {
   # Clone the latest tomox-sdk-ui to current directory
   if ! [[ -d "${GITHUB_URL}" ]]; then
@@ -48,12 +47,14 @@ build_image() {
     echo "-------------------"
   fi 
   # Replace .env parameter
-  sed -E '/^COINBASE_ADDRESS/s/=.*$/=${COINBASE_ADDRESS}/' tomox-sdk-ui/.env.sample > tomox-sdk-ui/.env
-  sed -E '/^RELAYER_REGISTRATION_CONTRACT_ADDRESS/s/=.*$/=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/' tomox-sdk-ui/.env.sample > tomox-sdk-ui/.env
-
+  # sed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env
+  # sed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
+  # Use for MACOS - you can `brew install gnu-sed` then:
+  gsed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env  
+  gsed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
+  
   # Generate image name
-  local name="${DOCKER_IMAGE_NAME}:$(arg_or_default "$1" \
-                                                    "${DOCKER_IMAGE_TAG}")"
+  local name="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 
   print "building image ${name}"
 
@@ -65,27 +66,81 @@ build_image() {
   rm -Rf tomox-sdk-ui
 }
 
-# usage: main [-h] [-d DATA_DIRECTORY] [-t TAG] [ARGS...]
+# usage: main [-h] [ARGS...]
 main() {
   check_requirements "$@" || exit 1
 
-  while getopts ':h' OPT; do
-    case "${OPT}" in
-      h)
-        full_usage
-        exit 0
-        ;;
-      ?)
-        full_usage
-        print
-        error "invalid argument: ${OPTARG}"
-        exit 1
-        ;;
-    esac
+  # while getopts ':c:a:h' OPT; do
+  #   case "${OPT}" in
+  #     h)
+  #       full_usage
+  #       exit 0
+  #       ;;
+  #     c)
+  #       COINBASE_ADDRESS=${OPTARG}
+  #       shift 
+  #       ;;
+  #     a)
+  #       RELAYER_REGISTRATION_CONTRACT_ADDRESS=$2
+  #       shift 
+  #       ;;
+  #     ?)
+  #       full_usage
+  #       print
+  #       error "invalid argument: ${OPTARG}"
+  #       exit 3
+  #       ;;
+  #   esac
+  # done
+
+  # shift "$((OPTIND - 1))"
+  while :; do 
+      case $1 in 
+          -h|\?|--help)
+              full_usage
+              exit
+              ;;
+          -c|--coinbase)
+              if [[ "$2" ]]; then
+                  COINBASE_ADDRESS=$2
+                  shift
+              else
+                  echo 'ERROR: "--coinbase" requires a non-empty option argument.'
+                  exit
+              fi
+              ;;
+          --coinbase=?*)
+              COINBASE_ADDRESS=${1#*=} # Delete everything up to "=" and assign the remainder.
+              ;;
+          --coinbase=)
+              echo 'ERROR: "--coinbase" requires a non-empty option argument.'
+              break
+              ;;
+          -a|--contract)
+              if [[ "$2" ]]; then
+                  RELAYER_REGISTRATION_CONTRACT_ADDRESS=$2
+                  shift
+              else
+                  echo 'ERROR: "--contract" requires a non-empty option argument.'
+                  exit
+              fi
+              ;;
+          --contract=?*)
+              COINBASE_ADDRESS=${1#*=} # Delete everything up to "=" and assign the remainder.
+              ;;
+          --contract=)
+              echo 'ERROR: "--contract" requires a non-empty option argument.'
+              break
+              ;;
+           -?*)
+               printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+               ;;
+           *)               # Default case: No more options, so break out of the loop.
+               break
+       esac
+       shift
   done
-
-  shift $((OPTIND - 1))
-
+  # shift "$((OPTIND - 1))"            
   build_image "$@"
 }
 
