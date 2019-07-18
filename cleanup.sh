@@ -9,7 +9,7 @@ elif [ $# -eq 1 ]; then
   if [ "$1" = "unsecure" ]; then
 
     echo "------------------------------------------------------------"
-    echo "############################### Cleaning up suite that was run in UNSECURE mode..."
+    echo "############################### Cleaning up suite that was run."
     echo "------------------------------------------------------------"
 
     echo "......"
@@ -17,8 +17,8 @@ elif [ $# -eq 1 ]; then
     echo "------------------------------------------------------------"
     echo "############################### Stopping and removing containers..."
     echo "------------------------------------------------------------"
-    docker-compose -f monitoring/docker-compose.unsecure.yml down -v
-    docker-compose -f logging/docker-compose.unsecure.yml down -v
+    docker-compose -f monitoring/docker-compose.yml down -v
+    docker-compose -f logging/docker-compose.yml down -v
 
   elif [ "$1" = "secure" ]; then
 
@@ -31,8 +31,8 @@ elif [ $# -eq 1 ]; then
     echo "------------------------------------------------------------"
     echo "############################### Stopping and removing containers..."
     echo "------------------------------------------------------------"
-    docker-compose -f monitoring/docker-compose.secure.yml down -v
-    docker-compose -f logging/docker-compose.secure.yml down -v
+    docker-compose -f monitoring/docker-compose.yml down -v
+    docker-compose -f logging/docker-compose.yml down -v
     docker-compose -f proxy/docker-compose.yml down -v
 
   else

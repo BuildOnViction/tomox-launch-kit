@@ -1,1 +1,0 @@
-tls {$CADDY_TLS_CERT} {$CADDY_TLS_KEY}
