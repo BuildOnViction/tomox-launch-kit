@@ -69,31 +69,6 @@ build_image() {
 # usage: main [-h] [ARGS...]
 main() {
   check_requirements "$@" || exit 1
-
-  # while getopts ':c:a:h' OPT; do
-  #   case "${OPT}" in
-  #     h)
-  #       full_usage
-  #       exit 0
-  #       ;;
-  #     c)
-  #       COINBASE_ADDRESS=${OPTARG}
-  #       shift 
-  #       ;;
-  #     a)
-  #       RELAYER_REGISTRATION_CONTRACT_ADDRESS=$2
-  #       shift 
-  #       ;;
-  #     ?)
-  #       full_usage
-  #       print
-  #       error "invalid argument: ${OPTARG}"
-  #       exit 3
-  #       ;;
-  #   esac
-  # done
-
-  # shift "$((OPTIND - 1))"
   while :; do 
       case $1 in 
           -h|\?|--help)
@@ -109,39 +84,45 @@ main() {
                   exit
               fi
               ;;
-          --coinbase=?*)
-              COINBASE_ADDRESS=${1#*=} # Delete everything up to "=" and assign the remainder.
+          --coinbase=?*) # Delete everything up to "=" and assign the remainder.
+              COINBASE_ADDRESS=${1#*=} 
               ;;
           --coinbase=)
               echo 'ERROR: "--coinbase" requires a non-empty option argument.'
               break
               ;;
-          -a|--contract)
+          -a|--address)
               if [[ "$2" ]]; then
                   RELAYER_REGISTRATION_CONTRACT_ADDRESS=$2
                   shift
               else
-                  echo 'ERROR: "--contract" requires a non-empty option argument.'
+                  echo 'ERROR: "--address" requires a non-empty option argument.'
                   exit
               fi
               ;;
-          --contract=?*)
-              COINBASE_ADDRESS=${1#*=} # Delete everything up to "=" and assign the remainder.
+          --address=?*) # Delete everything up to "=" and assign the remainder.
+              COINBASE_ADDRESS=${1#*=} 
               ;;
-          --contract=)
-              echo 'ERROR: "--contract" requires a non-empty option argument.'
+          --address=)
+              echo 'ERROR: "--address" requires a non-empty option argument.'
               break
               ;;
            -?*)
                printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+               exit 2
                ;;
            *)               # Default case: No more options, so break out of the loop.
                break
        esac
        shift
   done
-  # shift "$((OPTIND - 1))"            
-  build_image "$@"
+ 
+  if [[ ${COINBASE_ADDRESS} && ${RELAYER_REGISTRATION_CONTRACT_ADDRESS} ]] ; then
+    build_image "$@"
+  else
+    printf 'Program has at least 2 arguments'
+    exit
+  fi
 }
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
