@@ -10,9 +10,6 @@ readonly GITHUB_URL='https://github.com/tomochain/tomox-sdk-ui.git'
 source "${CURRENT_DIRECTORY}/scripts/config.sh"
 source "${CURRENT_DIRECTORY}/scripts/util.sh"
 
-# COINBASE_ADDRESS=$2
-# RELAYER_REGISTRATION_CONTRACT_ADDRESS=$4
-
 # usage: usage [printer]
 usage() {
   local printer="$(arg_or_default "$1" 'print_raw')"
@@ -47,11 +44,11 @@ build_image() {
     echo "-------------------"
   fi 
   # Replace .env parameter
-  # sed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env
-  # sed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
-  # Use for MACOS - you can `brew install gnu-sed` then:
-  gsed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env  
-  gsed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
+  sed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env
+  sed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
+  # Use for MacOS - you can `brew install gnu-sed` then:
+  # gsed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env  
+  # gsed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
   
   # Generate image name
   local name="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
@@ -120,7 +117,7 @@ main() {
   if [[ ${COINBASE_ADDRESS} && ${RELAYER_REGISTRATION_CONTRACT_ADDRESS} ]] ; then
     build_image "$@"
   else
-    printf 'Program has at least 2 arguments'
+    printf 'Program has at least 2 arguments.'
     exit
   fi
 }
