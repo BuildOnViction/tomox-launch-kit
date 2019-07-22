@@ -39,7 +39,7 @@ build_image() {
     echo "---------------------------"
     echo "First-time clone process..."
     echo "...Downloading from $GITHUB_URL"
-    git clone -b features/dockerize ${GITHUB_URL}
+    git clone ${GITHUB_URL}
     echo "Done git clone tomox-sdk-ui!"
     echo "----------------------------"
   fi 
