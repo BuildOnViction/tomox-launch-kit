@@ -14,7 +14,7 @@ source "${CURRENT_DIRECTORY}/scripts/util.sh"
 usage() {
   local printer="$(arg_or_default "$1" 'print_raw')"
 
-  "${printer}" "usage: ${CURRENT_SCRIPT} [-h] -c [COINBASE ADD] -a [CONTRACT ADD]"
+  "${printer}" "usage: ${CURRENT_SCRIPT} [-h] -c|--coinbase [COINBASE ADD] -a|--address [CONTRACT ADD]"
 }
 
 # usage: full_usage [printer]
@@ -27,8 +27,8 @@ full_usage() {
   "${printer}"
   "${printer}" 'arguments:'
   "${printer}" '  -h                    show this help message and exit'
-  "${printer}" '  -c                    the coin base address for relayer'
-  "${printer}" '  -a                    the contract address for relayer'  
+  "${printer}" '  -c|--coinbase         the coin base address for relayer'
+  "${printer}" '  -a--address           the contract address for relayer'  
 }
 
 
@@ -36,12 +36,12 @@ full_usage() {
 build_image() {
   # Clone the latest tomox-sdk-ui to current directory
   if ! [[ -d "${GITHUB_URL}" ]]; then
-    echo '-------------------'
+    echo "---------------------------"
     echo "First-time clone process..."
     echo "...Downloading from $GITHUB_URL"
     git clone ${GITHUB_URL}
     echo "Done git clone tomox-sdk-ui!"
-    echo "-------------------"
+    echo "----------------------------"
   fi 
   # Replace .env parameter
   sed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env
@@ -49,6 +49,9 @@ build_image() {
   # Use for MacOS - you can `brew install gnu-sed` then:
   # gsed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env  
   # gsed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
+
+  # Copy addresses.json to project then build 
+  cp -rf "${TOKEN_ADDRESS}" "${DOCKER_LOCAL_SOURCE_DIRECTORY}/src/config/addresses.json"
   
   # Generate image name
   local name="${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
@@ -56,7 +59,7 @@ build_image() {
   print "building image ${name}"
 
   # Run docker with the provided arguments
-  docker build -t "${name}" \
+  docker build -t "${name}" \ 
                   "${CURRENT_DIRECTORY}/${DOCKER_LOCAL_SOURCE_DIRECTORY}"
 
   # Clean

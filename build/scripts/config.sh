@@ -4,3 +4,7 @@ readonly DOCKER_IMAGE_MOUNT="/mnt/data"         # Optional
 
 readonly DOCKER_LOCAL_SOURCE_DIRECTORY="tomox-sdk-ui"
 readonly DOCKER_LOCAL_MOUNT_DIRECTORY="data"    # Optional - remove after add rexray driver
+
+## addresses.json path 
+
+readonly TOKEN_ADDRESS="../deploy/src/addresses.json"
