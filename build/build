@@ -50,7 +50,7 @@ build_image() {
   # gsed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env  
   # gsed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
 
-  # Copy addresses.json to project then build 
+  # Copy addresses.json to project before build image
   cp -rf "${TOKEN_ADDRESS}" "${DOCKER_LOCAL_SOURCE_DIRECTORY}/src/config/addresses.json"
   
   # Generate image name
