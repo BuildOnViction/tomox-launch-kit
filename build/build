@@ -39,14 +39,15 @@ build_image() {
     echo "---------------------------"
     echo "First-time clone process..."
     echo "...Downloading from $GITHUB_URL"
-    git clone ${GITHUB_URL}
+    git clone -b features/dockerize ${GITHUB_URL}
     echo "Done git clone tomox-sdk-ui!"
     echo "----------------------------"
   fi 
   # Replace .env parameter
+  # For Unix base
   sed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env
   sed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
-  # Use for MacOS - you can `brew install gnu-sed` then:
+  # Use for MacOS - you can `brew install gnu-sed` and then:
   # gsed -i "s/^COINBASE_ADDRESS=.*/COINBASE_ADDRESS=${COINBASE_ADDRESS}/g" tomox-sdk-ui/.env  
   # gsed -i "s/^RELAYER_REGISTRATION_CONTRACT_ADDRESS=.*/RELAYER_REGISTRATION_CONTRACT_ADDRESS=${RELAYER_REGISTRATION_CONTRACT_ADDRESS}/g" tomox-sdk-ui/.env
 
@@ -59,8 +60,7 @@ build_image() {
   print "building image ${name}"
 
   # Run docker with the provided arguments
-  docker build -t "${name}" \ 
-                  "${CURRENT_DIRECTORY}/${DOCKER_LOCAL_SOURCE_DIRECTORY}"
+  docker build -t "${name}" "${CURRENT_DIRECTORY}/${DOCKER_LOCAL_SOURCE_DIRECTORY}"
 
   # Clean
   rm -Rf tomox-sdk-ui
