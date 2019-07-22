@@ -27,8 +27,8 @@ full_usage() {
   "${printer}"
   "${printer}" 'arguments:'
   "${printer}" '  -h                    show this help message and exit'
-  "${printer}" '  -c|--coinbase         the coin base address for relayer'
-  "${printer}" '  -a--address           the contract address for relayer'  
+  "${printer}" '  -c| --coinbase        the coin base address for relayer'
+  "${printer}" '  -a| --address         the contract address for relayer'  
 }
 
 
