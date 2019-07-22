@@ -7,4 +7,4 @@ readonly DOCKER_LOCAL_MOUNT_DIRECTORY="data"    # Optional - remove after add re
 
 ## addresses.json path 
 
-readonly TOKEN_ADDRESS="../deploy/src/addresses.json"
+readonly TOKEN_ADDRESS="../deploy/src/config/addresses.json"
