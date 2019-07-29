@@ -20,7 +20,7 @@ services:
   rs:
     image: naviat/mongors:4.0
     build:
-      context: ./mongors
+      context: ../mongors
     networks:
       - mongo
     deploy:
