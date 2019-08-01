@@ -38,5 +38,5 @@ fabric.properties
 .vscode/
 datadir
 node_modules
-
+.DS_Store
 tomox-sdk-ui
