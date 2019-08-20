@@ -1,67 +1,87 @@
 version: '3.3'
 services:
-  rs1:
+  mongo0:
+    hostname: mongo0
     image: mongo
-    command: mongod --replSet "rs0"
+    networks:
+      - backend
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
-      - db-data-1:/data/db
-    networks:
-      - backend
-  rs2:
-    image: mongo
-    command: mongod --replSet "rs0"
-    ports:
-      - "27017:27017"
-    volumes:
-      - db-data-2:/data/db
-    networks:
-      - backend
-
-  rs3:
-    image: mongo
-    command: mongod --replSet "rs0"
-    ports:
-      - "27017:27017"
-    volumes:
-      - db-data-3:/data/db
-    networks:
-      - backend
-
-  rs:
-    image: naviat/mongors
-    networks:
-      - backend
+      - ./datadir/datadir0:/data/db
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 5s
-        max_attempts: 10
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo1:
+    hostname: mongo1
+    image: mongo
+    networks:
+      - backend
+    ports:
+      - 27018:27017
+    volumes:
+      - ./datadir/datadir1:/data/db
+    deploy:
+      restart_policy:
+        condition: on-failure
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo2:
+    hostname: mongo2
+    image: mongo
+    networks:
+      - backend
+    ports:
+      - 27019:27017
+    volumes:
+      - ./datadir/datadir2:/data/db
+    deploy:
+      restart_policy:
+        condition: on-failure
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo-rs0-setup:
+    image: mongo
+    depends_on:
+      - "mongo0"
+      - "mongo1"
+      - "mongo2"
+    networks:
+      - backend
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      - MONGO0=mongo0
+      - MONGO1=mongo1
+      - MONGO2=mongo2
+      - RS=rs0
+    entrypoint: [ "/scripts/setup.sh" ]
 
   rabbitmq:
     image: rabbitmq
-    ports:
-      - "5672"
-      - "15672"
+    deploy:
+      restart_policy:
+        condition: on-failure
     networks:
       - backend
+    ports:
+      - '5672:5672'
+      - '15672:15672'
 
   server:
-    image: backend
+    image: tomochain/tomox-sdk
     deploy:
       restart_policy:
         condition: on-failure
     volumes:
-      - config:/config
+      - /Users/tomochain/Desktop/TOMO/dev/tomox-launch-kit/dex/config:/tomox/config
     ports:
       - "8080"
     networks:
       - backend
     depends_on:
-      - rs1
-      - rs2
-      - rs3
+      - mongo0
+      - mongo1
+      - mongo2
       - rabbitmq
 
 volumes:
