@@ -59,7 +59,7 @@ wget -q -O - https://gist.githubusercontent.com/naviat/3ca77f48f90ab3fe495c17054
 
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
-sudo sh -c 'echo deb https://deb.nodesource.com/node_8.x xenial main > /etc/apt/sources.list.d/nodesource.list'
+sudo echo deb https://deb.nodesource.com/node_8.x xenial main > /etc/apt/sources.list.d/nodesource.list
 
 sudo apt-get update
 sudo apt-get install nodejs
