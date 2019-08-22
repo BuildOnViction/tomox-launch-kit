@@ -1,3 +1,5 @@
+<img src="./tomox-launch-kit.png">
+
 # TOMOX-LAUNCH-KIT
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
 
@@ -6,7 +8,7 @@
 - [Introduction](#introduction)
 - [Getting started](#getting-started)
 - [Database and message queue](#database)
-- [Deployment](#deployment)
+- [Basic Deployment](#deployment)
 - [Legal Disclaimer](#legal-disclaimer)
 
 ## Introduction 
@@ -19,14 +21,43 @@ Launch a TOMO relayer in under a minute with Launch Kit. This repository contain
 
 Fork this repository to get started!
 
- Tomox SDK is split into two separate repository:
+Tomox SDK is split into two separate repository:
 
-- [Tomox-SDK](https://github.com/tomochain/tomox-sdk): Relayer server, API and database with rabbitmq that powers by this launch kit project.
-- [Tomox-SDK-UI](https://github.com/tomochain/tomox-sdk-ui): TRC20/TRC21 rayler UIs
+- [Tomox-SDK](https://github.com/tomochain/tomox-sdk): Relayer server, API and database with rabbitmq that powers by Launch Kit.
+- [Tomox-SDK-UI](https://github.com/tomochain/tomox-sdk-ui): TRC20/TRC21 relayer UIs
 
 
 ## Getting started
 
+### Prerequisite
+
+#### Minimum hardware and software requirements
+
+- Processing transactions is mostly CPU bound. Therefore we recommend running CPU optimized servers. (You can check our base recommendations to create your fullnode [here](https://docs.tomochain.com/masternode/requirements/)) 
+    * Directly facing internet (public IP, no NAT)
+    * 16 cores CPU
+    * 32 GB of RAM
+    * SSD Storage
+    
+    <span style="color:#59afe1"> If you are running a node in Testnet, 2CPU/8GB of RAM is sufficient.</span>
+- Go 1.12 or higher
+- Docker and docker-compose with the latest version
+- 
+
+All IT systems require maintenance.
+
+It is of the owner's responsability to ensure over time that your node has enough:
+
+- disk space to store the new blockchain data
+- processing power to keep the chain operating at optimal speed
+- monitoring to be able to react quickly in case of problem
+- security mesures like firewalling, os security patching, ssh via keypairs, etc.
+
+This is a non exhaustive list.
+
+## Database and message queue
+
+## Basic Deployment
 
 #### Contribution
 
