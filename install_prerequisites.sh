@@ -64,4 +64,4 @@ sudo sh -c 'echo deb https://deb.nodesource.com/node_8.x xenial main > /etc/apt/
 sudo apt-get update
 sudo apt-get install nodejs
 
-echo -e  '\033[1;31m --Finish-- \033[0m'
+echo -e  '\033[1;31m --FINISH-- \033[0m'
