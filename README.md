@@ -29,9 +29,10 @@ Fork this repository to get started!
 
 Tomox SDK is split into two separate repository:
 
-* [Tomox-SDK](https://github.com/tomochain/tomox-sdk): Relayer server, API and 
+* [Tomox-SDK](https://github.com/tomochain/tomox-sdk): Relayer server, API and
 database with rabbitmq that powers by Launch Kit.
-* [Tomox-SDK-UI](https://github.com/tomochain/tomox-sdk-ui): TRC20/TRC21 relayer UIs
+* [Tomox-SDK-UI](https://github.com/tomochain/tomox-sdk-ui): TRC20/TRC21 relayer
+UIs
 
 ## Getting started ##
 
@@ -46,13 +47,25 @@ database with rabbitmq that powers by Launch Kit.
     * 32 GB of RAM
     * SSD Storage
 
-    [<span style="color:#59afe1"> If you are running a node in Testnet, 2CPU/8GB of RAM is sufficient. </span>]
+    **|** <span style="color:green"> If you are running a node in Testnet, 2CPU/8GB 
+    of RAM is sufficient. </span> **|**
+
+#### Application platform ####
 
 * Go 1.12 or higher
 * Docker and docker-compose with the latest version
 * Nodejs 8.16.x or higher
 
-All IT systems require maintenance.
+For ubuntu, you can use our [scipt](./install_prerequisites.sh).
+
+#### Networks ####
+
+Your server need to open these ports:
+
+* 80/443 for HTTP/HTTPs
+* 8501 for fullnode
+
+#### All IT systems require maintenance ####
 
 It is of the owner's responsability to ensure over time that your node has enough:
 
@@ -72,6 +85,12 @@ fullnode on server.
 
 TomoX SDK use mongo as database and rabbitmq for serve as poll queue.
 
+```
+$ git pull https://github.com/tomochain/tomox-lanch-kit.git
+$ cd tomox-launch-kit/dex
+$ 
+$ docker-compose -f backend.yml up -d
+```
 
 ## Basic Deployment ##
 
