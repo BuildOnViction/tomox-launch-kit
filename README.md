@@ -12,8 +12,8 @@
 * [Basic Deployment](#deployment)
     * [TomoX SDK](#TomoX-SDK)
     * [TomoX SDK UIs](#tomox-sdk-uis)
-* [Legal Disclaimer](#legal-disclaimer)
 * [Monitoring and Logging](#Monitoring-and-Logging)
+* [Legal Disclaimer](#legal-disclaimer)
 
 ## Introduction
 
@@ -105,3 +105,16 @@ and [Unsee](https://github.com/cloudflare/unsee).
 [![naviat/node-exporter](http://dockeri.co/image/naviat/node-exporter)](https://hub.docker.com/r/naviat/node-exporter/)
 
 [![naviat/prometheus](http://dockeri.co/image/naviat/prometheus)](https://hub.docker.com/r/naviat/prometheus/)
+
+## Legal Disclaimer ##
+
+The laws and regulations applicable to the use and exchange of digital assets and
+blockchain-native tokens, including through any software developed using the
+licensed work created by Tomo. as described here (the “Work”), vary by
+jurisdiction. As set forth in the Apache License, Version 2.0 applicable to the
+Work, developers are “solely responsible for determining the appropriateness of
+using or redistributing the Work,” which includes responsibility for ensuring
+compliance with any such applicable laws and regulations. See the Apache License,
+Version 2.0 for the specific language governing all applicable permissions and
+limitations:
+http://www.apache.org/licenses/LICENSE-2.0
