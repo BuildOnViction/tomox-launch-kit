@@ -15,7 +15,6 @@ echocolor '------------------------------------------------------------'
 echocolor '####################### Downloading and setting up Docker...'
 echocolor '------------------------------------------------------------'
 # Docker
-if
 sudo apt remove --yes docker docker-engine docker.io \
     && sudo apt update \
     && sudo apt --yes --no-install-recommends install \
@@ -53,15 +52,19 @@ sudo wget \
 
 
 ## GOLANG 
+
+echocolor 'Installing Golang'
+
 wget -q -O - https://gist.githubusercontent.com/naviat/3ca77f48f90ab3fe495c17054499ba1f/raw/ffcab909e96bb17c9c1bb59123b1d1fd566f0149/goinstall.sh | bash
 
 ## Nodejs 
 
+echocolor 'Installing Nodejs'
+
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
-sudo echo deb https://deb.nodesource.com/node_8.x xenial main > /etc/apt/sources.list.d/nodesource.list
+sudo sh -c 'echo deb https://deb.nodesource.com/node_8.x xenial main > /etc/apt/sources.list.d/nodesource.list'
 
-sudo apt-get update
-sudo apt-get install nodejs
+sudo apt-get update && sudo apt-get install nodejs
 
 echo -e  '\033[1;31m --FINISH-- \033[0m'
