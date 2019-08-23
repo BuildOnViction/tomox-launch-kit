@@ -2,8 +2,9 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
 
-# Quick start
-## Table of contents
+# Quick start #
+
+## Table of contents ##
 
 * [Introduction](#introduction)
 * [Getting started](#getting-started)
