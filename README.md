@@ -10,13 +10,13 @@
 * [Getting started](#getting-started)
 * [Create your fullnode](#create-your-fullnode)
 * [Database and message queue](#database-and-message-queue)
-* [Basic Deployment](#basic-deployment)
+* [Basic Deployment](#Basic-Deployment)
     * [TomoX SDK](#TomoX-SDK)
     * [TomoX SDK UIs](#tomox-sdk-uis)
 * [Monitoring and Logging](#Monitoring-and-Logging)
 * [Legal Disclaimer](#legal-disclaimer)
 
-## Introduction
+## Introduction ##
 
 Launch a TomoX relayer in under a minute with Launch Kit. This repository contains
 an open-source, free-to-use TomoX relayer template that you can use as a starting
