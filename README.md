@@ -9,7 +9,7 @@
 * [Getting started](#getting-started)
 * [Create your fullnode](#create-your-fullnode)
 * [Database and message queue](#database-and-message-queue)
-* [Basic Deployment](#deployment)
+* [Basic Deployment](#basic-deployment)
     * [TomoX SDK](#TomoX-SDK)
     * [TomoX SDK UIs](#tomox-sdk-uis)
 * [Monitoring and Logging](#Monitoring-and-Logging)
