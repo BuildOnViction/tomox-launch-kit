@@ -89,9 +89,9 @@ fullnode on server.
 TomoX SDK use mongo as database and rabbitmq for serve as poll queue.
 
 ```bash
-$ git clone https://github.com/tomochain/tomox-lanch-kit.git
-$ cd tomox-launch-kit/deploy
-$ docker-compose up -d
+git clone https://github.com/tomochain/tomox-lanch-kit.git
+cd tomox-launch-kit/deploy
+docker-compose up -d
 ```
 
 ## Basic Deployment ##
@@ -111,19 +111,19 @@ be change
 After customized your own config, run you SDK backend
 
 ```bash
-$ cd tomox-sdk
-$ go build .
-$ nohup ./tomox-sdk > log.temp &
+cd tomox-sdk
+go build .
+nohup ./tomox-sdk > log.temp &
 ```
 
 If you use Ubuntu server, we created service for run tomox-sdk as service
 
 ```bash
-$ wget https://raw.githubusercontent.com/tomochain/tomox-launch-kit/master/dex/scripts/sdk/tomox-sdk.service
-$ sudo mv tomox-sdk.service /lib/systemd/system/
-$ sudo chmod 755 /lib/systemd/system/tomox-sdk.service
-$ sudo systemctl enable tomox-sdk.service
-$ sudo systemctl start tomox-sdk.service
+wget https://raw.githubusercontent.com/tomochain/tomox-launch-kit/master/dex/scripts/sdk/tomox-sdk.service
+sudo mv tomox-sdk.service /lib/systemd/system/
+sudo chmod 755 /lib/systemd/system/tomox-sdk.service
+sudo systemctl enable tomox-sdk.service
+sudo systemctl start tomox-sdk.service
 ```
 
 #### Custom Config ####
@@ -189,16 +189,17 @@ tick_duration:
 #### Build up your UIs ####
 
 ```bash
-$ git clone https://github.com/tomochain/tomox-sdk-ui.git
-$ cd tomox-sdk-ui
-$ yarn install && yarn build
-$ sudo rm -Rf /var/www/public/* && sudo cp -Rf build/* /var/www/public
-$ sudp systemctl reload nginx
+git clone https://github.com/tomochain/tomox-sdk-ui.git
+cd tomox-sdk-ui
+yarn install && yarn build
+sudo rm -Rf /var/www/public/* && sudo cp -Rf build/* /var/www/public
+sudo systemctl reload nginx
 ```
 
-#### Web Server ###
+#### Relayer Domain ###
 
-Insert the necessary DNS and CNAME. We will get this structure
+Enable your SSL secure on DNS/CND provider and insert the necessary DNS and CNAME.
+We will get this structure
 
 <img src="./dns-sample.png">
 

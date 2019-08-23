@@ -25,7 +25,7 @@ fi
 
 if [[ "$HEADLESS" != "y" ]]; then
 	echo ""
-	echo "Welcome to the nginx-autoinstall script."
+	echo "Welcome to the nginx-auto script."
 	echo ""
 	echo "What do you want to do?"
 	echo "   1) Install or update Nginx"
@@ -154,7 +154,7 @@ case $OPTION in
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-openssl=/usr/local/src/nginx/modules/openssl-${OPENSSL_VER}")
 		fi
 
-		./configure "$NGINX_OPTIONS" "$NGINX_MODULES"
+		./configure $NGINX_OPTIONS $NGINX_MODULES
 		make -j "$(nproc)"
 		make install
 
@@ -209,6 +209,10 @@ case $OPTION in
 		fi
 		# Restart Nginx
 		systemctl restart nginx
+
+		# Create root location
+		sudo mkdir -p /var/www/public
+		sudo chown -R $USER:www-data /var/www/*
 
 		# Block Nginx from being installed via APT
 		if [[ $(lsb_release -si) == "Debian" ]] || [[ $(lsb_release -si) == "Ubuntu" ]]
