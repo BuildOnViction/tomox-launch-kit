@@ -25,12 +25,6 @@ vendor/
 datadir
 
 /node_modules
-<<<<<<< HEAD
 package-lock.json
 yarn.lock
-=======
-# package-lock.json
-# yarn.lock
-src/config/addresses.json
->>>>>>> develop
 .env
