@@ -8,7 +8,7 @@
 * [Introduction](#introduction)
 * [Getting started](#getting-started)
 * [Create your fullnode](#create-your-fullnode)
-* [Database and message queue](#database)
+* [Database and message queue](#database-and-message-queue)
 * [Basic Deployment](#deployment)
     * [TomoX SDK](#TomoX-SDK)
     * [TomoX SDK UIs](#tomox-sdk-uis)
@@ -86,10 +86,9 @@ fullnode on server.
 
 TomoX SDK use mongo as database and rabbitmq for serve as poll queue.
 
-```
-$ git pull https://github.com/tomochain/tomox-lanch-kit.git
+```shell
+$ git clone https://github.com/tomochain/tomox-lanch-kit.git
 $ cd tomox-launch-kit/deploy
-$ 
 $ docker-compose up -d
 ```
 
@@ -97,7 +96,87 @@ $ docker-compose up -d
 
 ### TomoX SDK ###
 
+Clone [tomox-sdk](https://github.com/tomochain/tomox-sdk.git) to your server
+
+`$ git clone https://github.com/tomochain/tomox-sdk.git`
+
+Go to `tomox-sdk` and edit your relayer config. We have some parameter needs to
+be change
+
+* `coinmarketcap_api_key` : Your CoinMarketCap API
+* `exchange_address` : Your Relayer Coinbase
+
+After customized your own config, run you SDK backend
+
+```shell
+$ cd tomox-sdk
+$ go build .
+```
+If you use Ubuntu server, we created service for run tomox-sdk as service
+
+```
+$ wget https://raw.githubusercontent.com/tomochain/tomox-launch-kit/master/dex/scripts/sdk/tomox-sdk.service
+$ sudo mv tomox-sdk.service /lib/systemd/system/
+$ sudo chmod 755 /lib/systemd/system/tomox-sdk.service
+```
+
 #### Custom Config ####
+
+```yaml
+coingecko_api_url: https://api.coingecko.com/api/v3
+coinmarketcap_api_key: <Your CoinMarketCap API>
+coinmarketcap_api_url: https://pro-api.coinmarketcap.com/v1
+db_name: tomodex
+deposit:
+  tomochain:
+    distribution_public_key: 0x59B8515E7fF389df6926Cd52a086B0f1f46C630A
+    issuer_public_key: 0x59B8515E7fF389df6926Cd52a086B0f1f46C630A
+    lock_unix_timestamp: 0
+    signer_private_key: 0x3411b45169aa5a8312e51357db68621031020dcf46011d7431db1bbb6d3922ce
+    starting_balance: 100
+    token_asset_code: WETH
+env: dev
+error_file: config/errors.yaml
+ethereum:
+  decimal: 8
+  exchange_address: <Your Relayer Coinbase>
+  contract_address: 0x82c41f368c6df8ac52fd2ab159b5860a89a85fe3  # will update when testnet
+  fee_account: 0x6e6BB166F420DDd682cAEbf55dAfBaFda74f2c9c
+  http_url: https://testnet.tomochain.com
+  ws_url: wss://testnet.tomochain.com/ws
+jwt_signing_key: QfCAH04Cob7b71QCqy738vw5XGSnFZ9d
+jwt_verification_key: QfCAH04Cob7b71QCqy738vw5XGSnFZ9d
+logs:
+  engine: ./engine.log
+  main: ./main.log
+  operator: ./operator.log
+mongo_url: mongodb://mongo0:27017,mongo1:27018,mongo2:27019/tomodex?replicaSet=rs0
+rabbitmq_url: amqp://guest:guest@rabbitmq:5672/
+server_port: 8080
+simulated: false
+supported_currencies: ETH,TOMO,BTC,USDT
+tick_duration:
+  day:
+  - 1
+  hour:
+  - 1
+  - 4
+  - 12
+  min:
+  - 1
+  - 5
+  - 15
+  - 30
+  month:
+  - 1
+  - 3
+  - 6
+  - 9
+  week:
+  - 1
+  year:
+  - 1
+```
 
 ### TomoX SDK UIs ###
 
