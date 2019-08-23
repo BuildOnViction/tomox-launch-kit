@@ -45,9 +45,10 @@ sudo wget \
         --output-document=/usr/local/bin/docker-compose \
         https://github.com/docker/compose/releases/download/"$DOCKER_COMPOSE_VERSION"/run.sh \
     && sudo chmod +x /usr/local/bin/docker-compose \
+    && sudo usermod -a -G docker $USER \
     && sudo wget \
         --output-document=/etc/bash_completion.d/docker-compose \
-        "https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose" \
+        "https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)contrib/completion/bash/docker-compose" \
     && echocolor 'Docker Compose installed successfully!'
 
 
@@ -56,6 +57,8 @@ sudo wget \
 echocolor 'Installing Golang'
 
 wget -q -O - https://gist.githubusercontent.com/naviat/3ca77f48f90ab3fe495c17054499ba1f/raw/ffcab909e96bb17c9c1bb59123b1d1fd566f0149/goinstall.sh | bash
+
+source /home/vagrant/.bashrc
 
 ## Nodejs 
 
