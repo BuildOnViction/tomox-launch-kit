@@ -55,6 +55,7 @@ UIs
 * Go 1.12 or higher
 * Docker and docker-compose with the latest version
 * Nodejs 8.16.x or higher
+* Yarn
 * nginx
 
 For ubuntu, you can use our [scipt](./scripts).
@@ -86,7 +87,7 @@ fullnode on server.
 
 TomoX SDK use mongo as database and rabbitmq for serve as poll queue.
 
-```shell
+```bash
 $ git clone https://github.com/tomochain/tomox-lanch-kit.git
 $ cd tomox-launch-kit/deploy
 $ docker-compose up -d
@@ -108,16 +109,20 @@ be change
 
 After customized your own config, run you SDK backend
 
-```shell
+```bash
 $ cd tomox-sdk
 $ go build .
+$ nohup ./tomox-sdk > log.temp &
 ```
+
 If you use Ubuntu server, we created service for run tomox-sdk as service
 
-```
+```bash
 $ wget https://raw.githubusercontent.com/tomochain/tomox-launch-kit/master/dex/scripts/sdk/tomox-sdk.service
 $ sudo mv tomox-sdk.service /lib/systemd/system/
 $ sudo chmod 755 /lib/systemd/system/tomox-sdk.service
+$ sudo systemctl enable tomox-sdk.service
+$ sudo systemctl start tomox-sdk.service
 ```
 
 #### Custom Config ####
@@ -180,13 +185,29 @@ tick_duration:
 
 ### TomoX SDK UIs ###
 
+#### Build up your UIs ####
+
+```bash
+$ git clone https://github.com/tomochain/tomox-sdk-ui.git
+$ cd tomox-sdk-ui
+$ yarn install && yarn build
+$ sudo rm -Rf /var/www/public/* && sudo cp -Rf build/* /var/www/public
+$ sudp systemctl reload nginx
+```
+
+#### Web Server ###
+
+Insert the necessary DNS and CNAME. We will get this structure
+
+<img src="./dns-sample.png">
+
 #### Contribution ####
 
 Please try your best to follow the guidance [here](https://chris.beams.io/posts/git-commit/)
 
 ## Monitoring and Logging ##
 
-**(In-progress)**
+**In-progress**
 
 [![Build Status](https://travis-ci.org/tomochain/tomox-launch-kit.svg?branch=master)](https://travis-ci.org/tomochain/tomox-launch-kit)
 

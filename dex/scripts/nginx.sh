@@ -104,7 +104,7 @@ case $OPTION in
 			cd /usr/local/src/nginx/modules || exit 1
 			wget https://www.openssl.org/source/openssl-${OPENSSL_VER}.tar.gz
 			tar xaf openssl-${OPENSSL_VER}.tar.gz
-			cd openssl-${OPENSSL_VER}
+			cd openssl-${OPENSSL_VER} || exit
 
 			./config
 		fi
@@ -112,7 +112,7 @@ case $OPTION in
 		# Download and extract of Nginx source code
 		cd /usr/local/src/nginx/ || exit 1
 		wget -qO- http://nginx.org/download/nginx-${NGINX_VER}.tar.gz | tar zxf -
-		cd nginx-${NGINX_VER}
+		cd nginx-${NGINX_VER} || exit
 
 		# As the default nginx.conf does not work, we download a clean and working conf from my GitHub.
 		# We do it only if it does not already exist, so that it is not overriten if Nginx is being updated
@@ -154,7 +154,7 @@ case $OPTION in
 			NGINX_MODULES=$(echo "$NGINX_MODULES"; echo "--with-openssl=/usr/local/src/nginx/modules/openssl-${OPENSSL_VER}")
 		fi
 
-		./configure $NGINX_OPTIONS $NGINX_MODULES
+		./configure "$NGINX_OPTIONS" "$NGINX_MODULES"
 		make -j "$(nproc)"
 		make install
 
@@ -190,7 +190,23 @@ case $OPTION in
 		if [[ ! -d /etc/nginx/conf.d ]]; then
 			mkdir -p /etc/nginx/conf.d
 		fi
-
+		if [[ ! -d /etc/nginx/certs ]] 
+		then
+			mkdir -p /etc/nginx/certs
+			if [[ ! -e /etc/nginx/certs/rpc.tomochain.com.crt && ! -e /etc/nginx/certs/rpc.tomochain.com.key ]] 
+			then
+				openssl req \
+       					-newkey rsa:2048 -nodes -keyout /etc/nginx/certs/rpc.tomochain.com.key \
+       					-x509 -days 3650 -out /etc/nginx/certs/rpc.tomochain.com.crt 
+			fi
+		else
+			if [[ ! -e /etc/nginx/certs/rpc.tomochain.com.crt && ! -e /etc/nginx/certs/rpc.tomochain.com.key ]] 
+			then
+				openssl req \
+       					-newkey rsa:2048 -nodes -keyout /etc/nginx/certs/rpc.tomochain.com.key \
+       					-x509 -days 3650 -out /etc/nginx/certs/rpc.tomochain.com.crt
+			fi
+		fi
 		# Restart Nginx
 		systemctl restart nginx
 
