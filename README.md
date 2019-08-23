@@ -55,8 +55,9 @@ UIs
 * Go 1.12 or higher
 * Docker and docker-compose with the latest version
 * Nodejs 8.16.x or higher
+* nginx
 
-For ubuntu, you can use our [scipt](./install_prerequisites.sh).
+For ubuntu, you can use our [scipt](./scripts).
 
 #### Networks ####
 
@@ -87,9 +88,9 @@ TomoX SDK use mongo as database and rabbitmq for serve as poll queue.
 
 ```
 $ git pull https://github.com/tomochain/tomox-lanch-kit.git
-$ cd tomox-launch-kit/dex
+$ cd tomox-launch-kit/deploy
 $ 
-$ docker-compose -f backend.yml up -d
+$ docker-compose up -d
 ```
 
 ## Basic Deployment ##
