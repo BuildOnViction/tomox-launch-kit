@@ -42,9 +42,9 @@ services:
   mongo-rs0-setup:
     image: mongo
     depends_on:
-      - "mongo0"
-      - "mongo1"
-      - "mongo2"
+      - mongo0
+      - mongo1
+      - mongo2
     networks:
       - backend
     volumes:
@@ -68,12 +68,12 @@ services:
       - '15672:15672'
 
   server:
-    image: tomochain/tomox-sdk
+    image: tomochain/tomox-sdk:latest
     deploy:
       restart_policy:
         condition: on-failure
     volumes:
-      - /Users/tomochain/Desktop/TOMO/dev/tomox-launch-kit/dex/config:/tomox/config
+      - $PWD/dex/config:/tomox/config
     ports:
       - "8080"
     networks:
