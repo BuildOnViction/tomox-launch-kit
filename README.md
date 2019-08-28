@@ -18,7 +18,7 @@
 
 ## Introduction ##
 
-Launch a TomoX relayer in under a minute with Launch Kit. This repository contains
+Launch a TomoX relayer in under 10 minutes with Launch Kit. This repository contains
 an open-source, free-to-use TomoX relayer template that you can use as a starting
 point for your own project.
 
@@ -28,11 +28,11 @@ point for your own project.
 
 Fork this repository to get started!
 
-Tomox SDK is split into two separate repository:
+TomoX SDK is split into two separate repository:
 
-* [Tomox-SDK](https://github.com/tomochain/tomox-sdk): Relayer server, API and
+* [TomoX-SDK](https://github.com/tomochain/tomox-sdk): Relayer server, API and
 database with rabbitmq that powers by Launch Kit.
-* [Tomox-SDK-UI](https://github.com/tomochain/tomox-sdk-ui): TRC20/TRC21 relayer
+* [TomoX-SDK-UI](https://github.com/tomochain/tomox-sdk-ui): TRC20/TRC21 relayer
 UIs
 
 ## Getting started ##
@@ -41,14 +41,16 @@ UIs
 
 #### Minimum hardware and software requirements ####
 
-* Processing transactions is mostly CPU bound. Therefore we recommend running CPU optimized servers. (You can check our base recommendations to create your fullnode [here](https://docs.tomochain.com/masternode/requirements/))
+* Processing transactions is mostly CPU bound. Therefore we recommend running CPU
+optimized servers.(You can check our base recommendations to create your
+fullnode [here](https://docs.tomochain.com/masternode/requirements/))
 
     * Directly facing internet (public IP, no NAT)
     * 16 cores CPU
     * 32 GB of RAM
     * SSD Storage
 
-    **|** <span style="color:green"> If you are running a node in Testnet, 2CPU/8GB 
+    **|** <span style="color:green"> If you are running a node in Testnet, 2CPU/8GB
     of RAM is sufficient. </span> **|**
 
 #### Application platform ####
@@ -146,7 +148,7 @@ error_file: config/errors.yaml
 ethereum:
   decimal: 8
   exchange_address: <Your Relayer Coinbase>
-  contract_address: 0x82c41f368c6df8ac52fd2ab159b5860a89a85fe3  # will update when testnet
+  contract_address: 0x82c41f368c6df8ac52fd2ab159b5860a89a85fe3  # update
   fee_account: 0x6e6BB166F420DDd682cAEbf55dAfBaFda74f2c9c
   http_url: https://testnet.tomochain.com
   ws_url: wss://testnet.tomochain.com/ws
