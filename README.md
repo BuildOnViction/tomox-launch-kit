@@ -130,6 +130,8 @@ sudo systemctl start tomox-sdk.service
 
 #### Custom Config ####
 
+`config.yaml`
+
 ```yaml
 coingecko_api_url: https://api.coingecko.com/api/v3
 coinmarketcap_api_key: <Your CoinMarketCap API>
@@ -184,6 +186,25 @@ tick_duration:
   - 1
   year:
   - 1
+```
+
+`errors.yaml`
+
+```yaml
+INTERNAL_SERVER_ERROR:
+  message: "We have encountered an internal server error."
+  developer_message: "Internal server error: {error}"
+
+NOT_FOUND:
+  message: "{resource} was not found."
+
+UNAUTHORIZED:
+  message: "Authentication failed."
+  developer_message: "Authentication failed: {error}"
+
+INVALID_DATA:
+  message: "There is some problem with the data you submitted. See \"details\" for more information."
+
 ```
 
 ### TomoX SDK UIs ###
